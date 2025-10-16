@@ -28,10 +28,10 @@ import bcrypt from "bcryptjs"
 */
 async function signUp(req, res) {
     try {
-        let { nombres, apellidos, tipoDocumento, numeroDocumento, email, password, telefono, direccion, fechaNacimiento, genero, estrato, sisben, eps, tipoSangre, poblacionVictima, discapacidad, etnia, fotoPerfil, firmaDigital, colegio } = req.body
+        let { names, lastNames, typeDocument, numberDocument, email, password, cellphone, direction, dateBorn, gender, role, estratum, sisben, eps, typeBlood, victimPopulation, disability, ethnic, profilePhoto, signDigital, college } = req.body
         const salt = bcrypt.genSaltSync();
         password = bcrypt.hashSync(password, salt)
-        const user = new users({  nombres, apellidos, tipoDocumento, numeroDocumento, email, password, telefono, direccion, fechaNacimiento, genero, estrato, sisben, eps, tipoSangre, poblacionVictima, discapacidad, etnia, fotoPerfil, firmaDigital, colegio  });
+        const user = new users({ names, lastNames, typeDocument, numberDocument, email, password, cellphone, direction, dateBorn, gender, role, estratum, sisben, eps, typeBlood, victimPopulation, disability, ethnic, profilePhoto, signDigital, college });
         await user.save()
         generarJWT(user._id)
             .then((x) => {

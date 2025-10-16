@@ -1,6 +1,6 @@
 import express from "express";
 import { body } from "express-validator";
-import signIn from "../controllers/SignIn.js";
+import functionsUsers from "../controllers/Users.js";
 import seeValidations from "../helpers/SeeValidations.js";
 
 const router = express.Router();
@@ -12,7 +12,7 @@ const validations = [
     }).escape(),
     body("password").notEmpty().escape()
 ];
-
-router.post("/", validations, seeValidations, signIn);
+router.get("/",functionsUsers.getUsersByRol);
+router.post("/", validations, seeValidations, functionsUsers.signIn);
 
 export default router;

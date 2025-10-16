@@ -5,28 +5,28 @@ const ObjectId = Schema.ObjectId;
 
 const modelUsers = new Schema(
     {
-        nombres: String,
-        apellidos: String,
-        tipoDocumento: String,
-        numeroDocumento: String,
+        names: String,
+        lastNames: String,
+        typeDocument: String,
+        numberDocument: String,
         email: String,
         password: String,
-        telefono: String,
-        direccion: String,
-        fechaNacimiento: String,
-        genero: String,
+        cellphone: String,
+        direction: String,
+        dateBorn: String,
+        gender: String,
         isActive: { type: Boolean, default: true },
-        rol: [], //coordinador//rector//secretaria//estudiante//profesor//acudiente,
-        estrato: Number,
+        roles: [], //coordinador//rector//secretaria//estudiante//profesor//acudiente,
+        estratum: Number,
         sisben: String,
         eps: String,
-        tipoSangre: String,
-        poblacionVictima: Boolean,
-        discapacidad: String,
-        etnia: String,
-        fotoPerfil: String,
-        firmaDigital: String,
-        colegio: { type: ObjectId, ref: "modelColleges" }   // referenciado al colegio
+        typeBlood: String,
+        victimPopulation: Boolean,
+        disability: String,
+        ethnic: String,
+        profilePhoto: String,
+        firmaDisignDigitalgital: String,
+        college: { type: ObjectId, ref: "modelColleges" }   // referenciado al colegio
     });
 
 export default mongoose.model("modelUsers", modelUsers);

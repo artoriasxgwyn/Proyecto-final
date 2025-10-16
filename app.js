@@ -3,12 +3,12 @@ import mongoose from "mongoose"
 import cors from "cors"
 import "dotenv/config"
 import signUp from "./routes/SignUp.js"
-import signIn from "./routes/SignIn.js"
+import users from "./routes/Users.js"
 
 const app = express()
 app.use(express.json());
 app.use(cors())
-app.use("/api/iniciarSesion", signIn);
+app.use("/api/iniciarSesion", users);
 app.use("/api/registrarse", signUp);
 
 app.listen(process.env.PORT, () => {
