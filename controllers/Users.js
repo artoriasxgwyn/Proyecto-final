@@ -9,7 +9,7 @@ import { generarJWT } from "../middlewares/JWT.js";
 */
 const functionsUsers = {
     // POST /api/usuarios-colegio/login
-    signIn: async (req, res) => {
+    login: async (req, res) => {
         try {
             const { numeroDocumento, password } = req.body
             const user = await modelUser.findOne({ numeroDocumento })
@@ -20,7 +20,7 @@ const functionsUsers = {
             if (!validPassword) {
                 return res.status(400).send("Contraseña incorrecta");
             }
-            
+
             generarJWT(user._id)
                 .then((token) => {
                     return res.json({
@@ -43,12 +43,11 @@ const functionsUsers = {
     getUsersByRol: async (req, res) => {
         try {
             const { rol } = req.params;
-            // Buscar usuarios que tengan el rol en su array de roles
             const users = await modelUser.find({ roles: { $in: [rol] } });
             res.json(users);
         }
         catch (e) {
-            res.status(500).json({ error: e.message });
+            res.status(500).json({ error: e });
         }
     },
 
@@ -63,17 +62,17 @@ const functionsUsers = {
             res.json(user);
         }
         catch (e) {
-            res.status(500).json({ error: e.message });
+            res.status(500).json({ error: e });
         }
     },
 
     // PUT /api/usuarios-colegio/:id/change-password
     changePassword: async (req, res) => {
         try {
-            const { id } = req.params;
+            let { uid } = req.uid
             const { currentPassword, newPassword } = req.body;
 
-            const user = await modelUser.findById(id);
+            const user = await modelUser.findById(uid);
             if (!user) {
                 return res.status(404).json({ error: "Usuario no encontrado" });
             }
@@ -100,17 +99,17 @@ const functionsUsers = {
         try {
             const { id } = req.params;
             //const updateAt = new Date();
-            
+
             const user = await modelUser.findByIdAndUpdate(
                 id,
                 { isActive: true },
                 { new: true }
             );
-            
+
             if (!user) {
                 return res.status(404).json({ error: "Usuario no encontrado" });
             }
-            
+
             res.json({ message: "Usuario activado", user });
         }
         catch (e) {
@@ -122,18 +121,18 @@ const functionsUsers = {
     deactivateUser: async (req, res) => {
         try {
             const { id } = req.params;
-            const updateAt = new Date();
-            
+            //const updateAt = new Date();
+
             const user = await modelUser.findByIdAndUpdate(
                 id,
-                { isActive: false, updateAt },
+                { isActive: false, /*updateAt*/ },
                 { new: true }
             );
-            
+
             if (!user) {
                 return res.status(404).json({ error: "Usuario no encontrado" });
             }
-            
+
             res.json({ message: "Usuario desactivado", user });
         }
         catch (e) {
@@ -146,15 +145,16 @@ const functionsUsers = {
         try {
             const { id } = req.params;
             const updateData = {
-                ...req.body,
-                updateAt: new Date()
+                ...req.body
+               /* updateAt: new Date()*/
             };
 
             // Si se envían roles, asegurarse de que sea un array
+            /*
             if (updateData.roles && !Array.isArray(updateData.roles)) {
                 updateData.roles = [updateData.roles];
             }
-
+            */
             const user = await modelUser.findByIdAndUpdate(
                 id,
                 updateData,
@@ -177,11 +177,11 @@ const functionsUsers = {
         try {
             const { id } = req.params;
             const user = await modelUser.findByIdAndDelete(id);
-            
+
             if (!user) {
                 return res.status(404).json({ error: "Usuario no encontrado" });
             }
-            
+
             res.json({ message: "Usuario eliminado permanentemente" });
         }
         catch (e) {
@@ -220,7 +220,7 @@ const functionsUsers = {
 
             const user = await modelUser.findByIdAndUpdate(
                 id,
-                { $pull: { roles: role }, updateAt: new Date() },
+                { $pull: { roles: role }/*, updateAt: new Date()*/ },
                 { new: true }
             );
 

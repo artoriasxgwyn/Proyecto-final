@@ -1,5 +1,5 @@
 import express from "express";
-import { body } from "express-validator";
+import { body, param } from "express-validator";
 import functionsUsers from "../controllers/Users.js";
 import seeValidations from "../helpers/SeeValidations.js";
 
@@ -12,7 +12,8 @@ const validations = [
     }).escape(),
     body("password").notEmpty().escape()
 ];
-router.get("/",functionsUsers.getUsersByRol);
-router.post("/", validations, seeValidations, functionsUsers.signIn);
+router.get("/rol/:rol",param("rol").isEmpty(),seeValidations,functionsUsers.getUsersByRol);
+router.get("/:id",param("id").isEmpty(),seeValidations,functionsUsers.getUsersById)
+router.post("/", validations, seeValidations, functionsUsers.login);
 
 export default router;

@@ -3,27 +3,27 @@ import { generarJWT } from "../middlewares/JWT.js"
 import bcrypt from "bcryptjs"
 /*
  {
-  "nombres":"johann",
-  "apellidos":"",
-  "tipoDocumento":"",
-  "numeroDocumento":"",
+  "names":"johann",
+  "lastNames":"",
+  "typeDocument":"",
+  "numberDocument":"",
   "email":"",
   "password":"",
-  "telefono":"",
-  "direccion":"",
-  "fechaNacimiento":"",
-  "genero":"",
-  "rol":"",
-  "estrato":"",
+  "cellphone":"",
+  "direction":"",
+  "dateBorn":"",
+  "gender":"",
+  "role":"",
+  "estratum":"",
   "sisben":"",
   "eps":"",
-  "tipoSangre":"",
-  "poblacionVictima":true,
-  "discapacidad":"",
-  "etnia":"",
-  "fotoPerfil":"",
-  "firmaDigital":"",
-  "colegio":"4edd40c86762e0fb12000003"
+  "typeBlood":"",
+  "victimPopulation":true,
+  "disability":"",
+  "ethnic":"",
+  "profilePhoto":"",
+  "signDigital":"",
+  "college":"4edd40c86762e0fb12000003"
 }
 */
 async function signUp(req, res) {

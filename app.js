@@ -9,7 +9,7 @@ const app = express()
 app.use(express.json());
 app.use(cors())
 app.use("/api/iniciarSesion", users);
-app.use("/api/registrarse", signUp);
+app.use("/api/usuarios-colegio", signUp);
 
 app.listen(process.env.PORT, () => {
     try {
