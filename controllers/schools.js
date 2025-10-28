@@ -1,4 +1,4 @@
-import Colegio from "../models/Colegios.js";
+import Colegio from "../models/schools.js";
 
 const httpSchools = {
     getSchools: async (req, res)=>{

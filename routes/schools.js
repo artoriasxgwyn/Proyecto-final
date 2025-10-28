@@ -1,7 +1,7 @@
 import Router from "express";
-import httpSchools from "../controllers/Colegios.js";
+import httpSchools from "../controllers/schools.js";
 import { check } from "express-validator";
-import validateFields from "../middlewares/ChecksColegio.js";
+import validateFields from "../middlewares/Checksschools.js";
 
 const routes = Router()
 
