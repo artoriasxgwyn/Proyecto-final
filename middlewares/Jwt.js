@@ -31,11 +31,12 @@ const validar = async (req, res, next) => {
                 msg: "No hay token en la peticion"
             })
         };
+        /*
         if (!user.isActive) {
             return res.status(401).json({
                 msg: "El usuario no esta activo"
             })
-        };
+        };*/
         if (!user) {
             return res.status(401).json({
                 msg: "usuario no existe"

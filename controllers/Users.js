@@ -7,12 +7,56 @@ import { generarJWT } from "../middlewares/JWT.js";
   "password":"ryomen445"
 }
 */
+/*
+ {
+  "names":"johann",
+  "lastNames":"",
+  "typeDocument":"",
+  "numberDocument":"",
+  "email":"",
+  "password":"",
+  "cellphone":"",
+  "direction":"",
+  "dateBorn":"",
+  "gender":"",
+  "role":"",
+  "estratum":"",
+  "sisben":"",
+  "eps":"",
+  "typeBlood":"",
+  "victimPopulation":true,
+  "disability":"",
+  "ethnic":"",
+  "profilePhoto":"",
+  "signDigital":"",
+  "college":"4edd40c86762e0fb12000003"
+}
+*/
+
 const functionsUsers = {
+    register: async (req,res) => {
+        try {
+            let { names, lastNames, typeDocument, numberDocument, email, password, cellphone, direction, dateBorn, gender, roles, estratum, sisben, eps, typeBlood, victimPopulation, disability, ethnic, profilePhoto, signDigital, college } = req.body
+            const salt = bcrypt.genSaltSync();
+            password = bcrypt.hashSync(password, salt)
+            const user = new modelUser({ names, lastNames, typeDocument, numberDocument, email, password, cellphone, direction, dateBorn, gender, roles, estratum, sisben, eps, typeBlood, victimPopulation, disability, ethnic, profilePhoto, signDigital, college });
+            await user.save()
+            generarJWT(user._id)
+                .then((x) => {
+                    console.log(x)
+                    res.send(x)
+                })
+            console.log(user)
+        } catch (error) {
+            res.send("error").status(400)
+            console.log(error)
+        }
+    },
     // POST /api/usuarios-colegio/login
     login: async (req, res) => {
         try {
-            const { numeroDocumento, password } = req.body
-            const user = await modelUser.findOne({ numeroDocumento })
+            const { numberDocument, password } = req.body
+            const user = await modelUser.findOne({ numberDocument })
             if (!user) {
                 return res.status(400).send("Usuario no existe");
             }
@@ -27,7 +71,7 @@ const functionsUsers = {
                         token,
                         user: {
                             id: user._id,
-                            numeroDocumento: user.numeroDocumento,
+                            numeroDocumento: user.numberDocument,
                             roles: user.rol // incluir los roles
                         }
                     });
@@ -69,10 +113,11 @@ const functionsUsers = {
     // PUT /api/usuarios-colegio/:id/change-password
     changePassword: async (req, res) => {
         try {
-            let { uid } = req.uid
+            let { id } = req.params
             const { currentPassword, newPassword } = req.body;
 
-            const user = await modelUser.findById(uid);
+            const user = await modelUser.findById(id);
+            console.log(user)
             if (!user) {
                 return res.status(404).json({ error: "Usuario no encontrado" });
             }
@@ -113,12 +158,12 @@ const functionsUsers = {
             res.json({ message: "Usuario activado", user });
         }
         catch (e) {
-            res.status(500).json({ error: e.message });
+            res.status(500).json({ error: e });
         }
     },
 
     // PUT /api/usuarios-colegio/:id/desactivar
-    deactivateUser: async (req, res) => {
+    desactivateUser: async (req, res) => {
         try {
             const { id } = req.params;
             //const updateAt = new Date();
@@ -146,7 +191,7 @@ const functionsUsers = {
             const { id } = req.params;
             const updateData = {
                 ...req.body
-               /* updateAt: new Date()*/
+                /* updateAt: new Date()*/
             };
 
             // Si se envían roles, asegurarse de que sea un array

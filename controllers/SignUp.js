@@ -45,16 +45,5 @@ async function signUp(req, res) {
     }
 
 }
-async function getUsers(req, res) {
-    try {
-        const users = await users.find();
-        console.log(users)
-        res.json({ users });
 
-    } catch (error) {
-        res.send("error").status(400)
-        console.log(error)
-    }
-
-}
-export { signUp, getUsers } 
+export { signUp } 
