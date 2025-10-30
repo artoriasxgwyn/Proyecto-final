@@ -31,10 +31,10 @@ import { generarJWT } from "../middlewares/JWT.js";
 const functionsUsers = {
     register: async (req,res) => {
         try {
-            let { names, lastNames, typeDocument, numberDocument, email, password, cellphone, direction, dateBorn, gender, roles, estratum, sisben, eps, typeBlood, victimPopulation, disability, ethnic, profilePhoto, signDigital, college } = req.body
+            let { names, lastNames, typeDocument, numberDocument, email, password, cellphone, direction, dateBorn, gender, roles, stratum, sisben, eps, typeBlood, victimPopulation, disability, ethnic, profilePhoto, signDigital, college } = req.body
             const salt = bcrypt.genSaltSync();
             password = bcrypt.hashSync(password, salt)
-            const user = new modelUser({ names, lastNames, typeDocument, numberDocument, email, password, cellphone, direction, dateBorn, gender, roles, estratum, sisben, eps, typeBlood, victimPopulation, disability, ethnic, profilePhoto, signDigital, college });
+            const user = new modelUser({ names, lastNames, typeDocument, numberDocument, email, password, cellphone, direction, dateBorn, gender, roles, stratum, sisben, eps, typeBlood, victimPopulation, disability, ethnic, profilePhoto, signDigital, college });
             await user.save()
             generarJWT(user._id)
                 .then((x) => {

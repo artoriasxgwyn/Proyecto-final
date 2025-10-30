@@ -31,7 +31,7 @@ const validationsRegister = [
     .withMessage('La fecha debe tener formato DD-MM-YYYY'),
     body("gender").notEmpty().escape(),
     body("roles").notEmpty().escape(),
-    body("estratum").notEmpty().escape(),
+    body("stratum").notEmpty().escape(),
     body("sisben").notEmpty().escape(),
     body("eps").notEmpty().escape(),
     body("typeBlood").notEmpty().escape(),
@@ -129,6 +129,8 @@ router.get("/:id", validar, param("id").notEmpty(), seeValidations, functionsUse
  *                 type: string
  *               numberDocument:
  *                 type: string
+ *               direction:
+ *                 type: string
  *               email:
  *                 type: string
  *               password:
@@ -150,7 +152,7 @@ router.get("/:id", validar, param("id").notEmpty(), seeValidations, functionsUse
  *               typeBlood:
  *                 type: string
  *               victimPopulation:
- *                 type: string
+ *                 type: boolean
  *               disability:    
  *                 type: string
  *               ethnic:
@@ -186,7 +188,7 @@ router.post("/registrar", validationsRegister, seeValidations, functionsUsers.re
  *               - password
  *             properties:
  *               numberDocument:
- *                 type: string
+ *                 type: number
  *               password:
  *                 type: string
  *     responses:

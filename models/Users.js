@@ -17,7 +17,7 @@ const modelUsers = new Schema(
         gender: String,
         isActive: { type: Boolean, default: true },
         roles: [], //coordinador//rector//secretaria//estudiante//profesor//acudiente,
-        estratum: Number,
+        stratum: Number,
         sisben: String,
         eps: String,
         typeBlood: String,
