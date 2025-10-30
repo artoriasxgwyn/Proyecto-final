@@ -108,8 +108,6 @@ router.get("/:id", validar, param("id").notEmpty(), seeValidations, functionsUse
  *   post:
  *     summary: Registrar un nuevo usuario
  *     tags: [Usuarios]
- *     security:
- *       - XTokenAuth: []
  *     requestBody:
  *       required: true
  *       content:
