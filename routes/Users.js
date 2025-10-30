@@ -2,7 +2,7 @@ import express from "express";
 import { body, param } from "express-validator";
 import { validar } from "../middlewares/JWT.js";
 import functionsUsers from "../controllers/Users.js";
-import seeValidations from "../helpers/SeeValidations.js";
+import seeValidations from "../middlewares/SeeValidations.js";
 
 const router = express.Router();
 
@@ -28,7 +28,7 @@ const validationsRegister = [
     }),
     body("direction").notEmpty().escape(),
     body('dateBorn').notEmpty().isDate({ format: 'DD/MM/YYYY', strictMode: true })
-        .withMessage('La fecha debe tener formato DD-MM-YYYY'),
+    .withMessage('La fecha debe tener formato DD-MM-YYYY'),
     body("gender").notEmpty().escape(),
     body("roles").notEmpty().escape(),
     body("estratum").notEmpty().escape(),
@@ -47,21 +47,254 @@ const validationsChangePassword = [
     body("newPassword").notEmpty().escape()
 ];
 
+/**
+ * @swagger
+ * tags:
+ *   name: Usuarios
+ *   description: Endpoints para la gestión de usuarios
+ */
+
+/**
+ * @swagger
+ * /api/usuarios-colegio/rol/{rol}:
+ *   get:
+ *     summary: Obtener usuarios por rol
+ *     tags: [Usuarios]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: rol
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Rol del usuario (ej. "acudiente", "profesor", etc.)
+ *     responses:
+ *       200:
+ *         description: Lista de usuarios del rol indicado
+ *       400:
+ *         description: Parámetro inválido o faltante
+ *       401:
+ *         description: Token inválido o ausente
+ */
 router.get("/rol/:rol", validar, param("rol").notEmpty(), seeValidations, functionsUsers.getUsersByRol);
+
+/**
+ * @swagger
+ * /api/usuarios-colegio/{id}:
+ *   get:
+ *     summary: Obtener usuario por ID
+ *     tags: [Usuarios]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID del usuario en MongoDB
+ *     responses:
+ *       200:
+ *         description: Datos del usuario encontrados
+ *       404:
+ *         description: Usuario no encontrado
+ */
 router.get("/:id", validar, param("id").notEmpty(), seeValidations, functionsUsers.getUsersById);
+
+/**
+ * @swagger
+ * /api/usuarios-colegio/registrar:
+ *   post:
+ *     summary: Registrar un nuevo usuario
+ *     tags: [Usuarios]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - names
+ *               - lastNames
+ *               - numberDocument
+ *               - email
+ *               - password
+ *             properties:
+ *               names:
+ *                 type: string
+ *               lastNames:
+ *                 type: string
+ *               typeDocument:
+ *                 type: string
+ *               numberDocument:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *               cellphone:
+ *                 type: string
+ *               dateBorn:
+ *                 type: string
+ *               gender:
+ *                 type: string
+ *               roles:
+ *                 type: string
+ *               stratum:
+ *                 type: string
+ *               sisben:
+ *                 type: string
+ *               eps:
+ *                 type: string
+ *               typeBlood:
+ *                 type: string
+ *               victimPopulation:
+ *                 type: string
+ *               disability:    
+ *                 type: string
+ *               ethnic:
+ *                 type: string
+ *               profilePhoto:  
+ *                 type: string
+ *               signDigital:
+ *                 type: string
+ *               college:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: Usuario registrado correctamente
+ *       400:
+ *         description: Datos inválidos
+ */
 router.post("/registrar", validationsRegister, seeValidations, functionsUsers.register);
+
+/**
+ * @swagger
+ * /api/usuarios-colegio:
+ *   post:
+ *     summary: Iniciar sesión de usuario
+ *     tags: [Usuarios]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - numberDocument
+ *               - password
+ *             properties:
+ *               numberDocument:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Inicio de sesión exitoso
+ *       401:
+ *         description: Credenciales inválidas
+ */
 router.post("/", validationsLogin, seeValidations, functionsUsers.login);
+
+/**
+ * @swagger
+ * /api/usuarios-colegio/{id}/change-password:
+ *   post:
+ *     summary: Cambiar la contraseña de un usuario
+ *     tags: [Usuarios]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - currentPassword
+ *               - newPassword
+ *             properties:
+ *               currentPassword:
+ *                 type: string
+ *               newPassword:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Contraseña actualizada correctamente
+ *       400:
+ *         description: Error en la validación
+ *       401:
+ *         description: Token inválido
+ */
 router.post("/:id/change-password", validar, validationsChangePassword, seeValidations, functionsUsers.changePassword);
+
+/**
+ * @swagger
+ * /api/usuarios/{id}/activar:
+ *   post:
+ *     summary: Activar usuario
+ *     tags: [Usuarios]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Usuario activado correctamente
+ */
 router.post("/:id/activar", validar, param("id").notEmpty(), seeValidations, functionsUsers.activateUser);
+
+/**
+ * @swagger
+ * /api/usuarios-colegio/{id}/desactivar:
+ *   post:
+ *     summary: Desactivar usuario
+ *     tags: [Usuarios]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Usuario desactivado correctamente
+ */
 router.post("/:id/desactivar", validar, param("id").notEmpty(), seeValidations, functionsUsers.desactivateUser);
+
+/**
+ * @swagger
+ * /api/usuarios-colegio/{id}:
+ *   delete:
+ *     summary: Eliminar usuario
+ *     tags: [Usuarios]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Usuario eliminado correctamente
+ *       404:
+ *         description: Usuario no encontrado
+ */
 router.delete("/:id", validar, param("id").notEmpty(), seeValidations, functionsUsers.deleteUser);
-
-
-/*
- {
-  "currentPassword":"ryomen445",
-  "newPassword":"RYOMEN445"
-}
-*/
 
 export default router;
