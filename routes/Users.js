@@ -28,7 +28,7 @@ const validationsRegister = [
     }),
     body("direction").notEmpty().escape(),
     body('dateBorn').notEmpty().isDate({ format: 'DD/MM/YYYY', strictMode: true })
-    .withMessage('La fecha debe tener formato DD-MM-YYYY'),
+        .withMessage('La fecha debe tener formato DD-MM-YYYY'),
     body("gender").notEmpty().escape(),
     body("roles").notEmpty().escape(),
     body("stratum").notEmpty().escape(),
@@ -106,10 +106,10 @@ router.get("/:id", validar, param("id").notEmpty(), seeValidations, functionsUse
  * @swagger
  * /api/usuarios-colegio/registrar:
  *   post:
- *     security:
- *       - XTokenAuth: []
  *     summary: Registrar un nuevo usuario
  *     tags: [Usuarios]
+ *     security:
+ *       - XTokenAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -155,11 +155,11 @@ router.get("/:id", validar, param("id").notEmpty(), seeValidations, functionsUse
  *                 type: string
  *               victimPopulation:
  *                 type: boolean
- *               disability:    
+ *               disability:
  *                 type: string
  *               ethnic:
  *                 type: string
- *               profilePhoto:  
+ *               profilePhoto:
  *                 type: string
  *               signDigital:
  *                 type: string
@@ -205,12 +205,10 @@ router.post("/", validationsLogin, seeValidations, functionsUsers.login);
  * @swagger
  * /api/usuarios-colegio/{id}/change-password:
  *   post:
- *     security:
- *       - XTokenAuth: []
  *     summary: Cambiar la contraseña de un usuario
  *     tags: [Usuarios]
  *     security:
- *       - bearerAuth: []
+ *       - XTokenAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -243,11 +241,11 @@ router.post("/:id/change-password", validar, validationsChangePassword, seeValid
 
 /**
  * @swagger
- * /api/usuarios/{id}/activar:
+ * /api/usuarios-colegio/{id}/activar:
  *   post:
  *     summary: Activar usuario
  *     tags: [Usuarios]
- *    security:
+ *     security:
  *       - XTokenAuth: []
  *     parameters:
  *       - in: path
