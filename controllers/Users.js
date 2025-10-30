@@ -1,12 +1,7 @@
 import modelUser from "../models/Users.js";
 import bcrypt from "bcryptjs";
 import { generarJWT } from "../middlewares/JWT.js";
-/*
-{
-  "numeroDocumento":"elian",
-  "password":"ryomen445"
-}
-*/
+
 /*
  {
   "names":"johann",
