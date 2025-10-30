@@ -61,7 +61,7 @@ const validationsChangePassword = [
  *     summary: Obtener usuarios por rol
  *     tags: [Usuarios]
  *     security:
- *       - bearerAuth: []
+ *       - XTokenAuth: []
  *     parameters:
  *       - in: path
  *         name: rol
@@ -86,7 +86,7 @@ router.get("/rol/:rol", validar, param("rol").notEmpty(), seeValidations, functi
  *     summary: Obtener usuario por ID
  *     tags: [Usuarios]
  *     security:
- *       - bearerAuth: []
+ *       - XTokenAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -106,6 +106,8 @@ router.get("/:id", validar, param("id").notEmpty(), seeValidations, functionsUse
  * @swagger
  * /api/usuarios-colegio/registrar:
  *   post:
+ *     security:
+ *       - XTokenAuth: []
  *     summary: Registrar un nuevo usuario
  *     tags: [Usuarios]
  *     requestBody:
@@ -188,7 +190,7 @@ router.post("/registrar", validationsRegister, seeValidations, functionsUsers.re
  *               - password
  *             properties:
  *               numberDocument:
- *                 type: number
+ *                 type: string
  *               password:
  *                 type: string
  *     responses:
@@ -203,6 +205,8 @@ router.post("/", validationsLogin, seeValidations, functionsUsers.login);
  * @swagger
  * /api/usuarios-colegio/{id}/change-password:
  *   post:
+ *     security:
+ *       - XTokenAuth: []
  *     summary: Cambiar la contraseña de un usuario
  *     tags: [Usuarios]
  *     security:
@@ -243,8 +247,8 @@ router.post("/:id/change-password", validar, validationsChangePassword, seeValid
  *   post:
  *     summary: Activar usuario
  *     tags: [Usuarios]
- *     security:
- *       - bearerAuth: []
+ *    security:
+ *       - XTokenAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -264,7 +268,7 @@ router.post("/:id/activar", validar, param("id").notEmpty(), seeValidations, fun
  *     summary: Desactivar usuario
  *     tags: [Usuarios]
  *     security:
- *       - bearerAuth: []
+ *       - XTokenAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -284,7 +288,7 @@ router.post("/:id/desactivar", validar, param("id").notEmpty(), seeValidations, 
  *     summary: Eliminar usuario
  *     tags: [Usuarios]
  *     security:
- *       - bearerAuth: []
+ *       - XTokenAuth: []
  *     parameters:
  *       - in: path
  *         name: id

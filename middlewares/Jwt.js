@@ -22,7 +22,9 @@ const generarJWT = (uid) => {
 const validar = async (req, res, next) => {
     try {
         const token = req.header("x-token");
+        console.log(token)
         const uid = jwt.verify(token, process.env.SECRETORPRIVATEKEY)
+        console.log(uid)
         let user = await users.findById(uid.uid);
         req.uid = uid;
 
@@ -31,6 +33,7 @@ const validar = async (req, res, next) => {
                 msg: "No hay token en la peticion"
             })
         };
+        console.log("1")
         /*
         if (!user.isActive) {
             return res.status(401).json({
@@ -42,6 +45,7 @@ const validar = async (req, res, next) => {
                 msg: "usuario no existe"
             })
         };
+        console.log("2")
         next();
     } catch (error) {
         res.status(401).json({
