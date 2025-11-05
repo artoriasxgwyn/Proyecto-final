@@ -36,12 +36,15 @@ const functionsUsers = {
             password = bcrypt.hashSync(password, salt)
             const user = new modelUser({ names, lastNames, typeDocument, numberDocument, email, password, cellphone, direction, dateBorn, gender, roles, stratum, sisben, eps, typeBlood, victimPopulation, disability, ethnic, profilePhoto, signDigital, college });
             await user.save()
+            /*
             generarJWT(user._id)
                 .then((x) => {
                     console.log(x)
                     res.send(x)
                 })
-            console.log(user)
+            */
+            res.send("usuario registrado")
+            //console.log(user)
         } catch (error) {
             res.send("error").status(400)
             console.log(error)
