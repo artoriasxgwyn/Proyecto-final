@@ -40,7 +40,7 @@ const validationsRegister = [
     body("ethnic").notEmpty().escape(),
     body("profilePhoto").notEmpty().escape(),
     body("signDigital").notEmpty().escape(),
-    body("college").notEmpty().escape(),
+    body("college").notEmpty().isMongoId().escape(),
 ];
 const validationsChangePassword = [
     body("currentPassword").notEmpty().escape(),
@@ -100,7 +100,7 @@ router.get("/rol/:rol", validar, param("rol").notEmpty(), seeValidations, functi
  *       404:
  *         description: Usuario no encontrado
  */
-router.get("/:id", validar, param("id").notEmpty(), seeValidations, functionsUsers.getUsersById);
+router.get("/:id", validar, param("id").notEmpty().isMongoId(), seeValidations, functionsUsers.getUsersById);
 
 /**
  * @swagger
