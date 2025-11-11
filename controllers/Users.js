@@ -1,4 +1,5 @@
 import modelUser from "../models/Users.js";
+import modelSchools from "../models/schools.js";
 import bcrypt from "bcryptjs";
 import { generarJWT } from "../middlewares/JWT.js";
 
@@ -44,6 +45,23 @@ const functionsUsers = {
                 })
             */
             res.send("usuario registrado")
+            //console.log(user)
+        } catch (error) {
+            res.send("error").status(400)
+            console.log(error)
+        }
+    },
+     getUsersByPopulate: async (req,res) => {
+        try {
+            const data = await modelUser.find().populate("college")
+            /*
+            generarJWT(user._id)
+                .then((x) => {
+                    console.log(x)
+                    res.send(x)
+                })
+            */
+            res.send(data)
             //console.log(user)
         } catch (error) {
             res.send("error").status(400)

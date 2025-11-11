@@ -26,7 +26,7 @@ const modelUsers = new Schema(
         ethnic: String,
         profilePhoto: String,
         firmaDisignDigitalgital: String,
-        college: { type: ObjectId, ref: "colleges" }   // referenciado al colegio
+        college: { type: ObjectId, ref: "School" }   // referenciado al colegio
     });
 
 export default mongoose.model("users", modelUsers);

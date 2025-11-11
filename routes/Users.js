@@ -102,6 +102,9 @@ router.get("/rol/:rol", validar, param("rol").notEmpty(), seeValidations, functi
  */
 router.get("/:id", validar, param("id").notEmpty().isMongoId(), seeValidations, functionsUsers.getUsersById);
 
+
+router.get("/", functionsUsers.getUsersByPopulate);
+
 /**
  * @swagger
  * /api/usuarios-colegio/registrar:
